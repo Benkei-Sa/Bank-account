@@ -27,12 +27,24 @@ type account struct {
 
 // deposit зачисляет деньги на счет.
 func (acc *account) deposit(amount int) error {
-	// ...
+	var err error
+	if amount != 0 {
+		acc.balance = acc.balance + amount
+	} else {
+		err = errInvalidAmount
+	}
+	return err
 }
 
 // withdraw списывает деньги со счета.
 func (acc *account) withdraw(amount int) error {
-	// ...
+	var err error
+	if amount != 0 && (acc.balance-amount) >= (-acc.overdraft) {
+		acc.balance = acc.balance - amount
+	} else {
+		err = errInsufficientFunds
+	}
+	return err
 }
 
 // ┌─────────────────────────────────┐
